@@ -2,11 +2,20 @@
 
 namespace Nahid\Talk\Conversations;
 
-use Illuminate\Database\Eloquent\Model;
+use Nahid\Talk\BaseRepository;
+use SebastianBerc\Repositories\Repository;
 
-class ConversationRepository extends Model
+class ConversationRepository extends BaseRepository
 {
-    protected $table = 'conversations';
+    /*
+     * this method is default method for repository package
+     *
+     * @return  \Nahid\Talk\Conersations\Conversation
+     * */
+    public function takeModel()
+    {
+        return Conversation::class;
+    }
 
     /**
      * check this given user is exists
@@ -66,13 +75,13 @@ class ConversationRepository extends Model
      */
     public function isUserExists($conversationId, $userId)
     {
-        $exists = Conversation::where('id', $conversationId)
-            ->where(function ($query) use ($userId) {
-                $query->where('user_one', $userId)->orWhere('user_two', $userId);
-            })
+        return Conversation::where('id', $conversationId)
+            ->where(
+                function ($query) use ($userId) {
+                    $query->where('user_one', $userId)->orWhere('user_two', $userId);
+                }
+            )
             ->exists();
-
-        return $exists;
     }
 
     /**

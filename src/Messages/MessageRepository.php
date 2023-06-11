@@ -2,11 +2,15 @@
 
 namespace Nahid\Talk\Messages;
 
-use Illuminate\Database\Eloquent\Model;
+use Nahid\Talk\BaseRepository;
+use SebastianBerc\Repositories\Repository;
 
-class MessageRepository extends Model
+class MessageRepository extends BaseRepository
 {
-    protected $table = 'messages';
+    public function takeModel()
+    {
+        return Message::class;
+    }
 
     public function deleteMessages($conversationId)
     {
